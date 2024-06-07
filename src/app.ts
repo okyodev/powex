@@ -1,13 +1,13 @@
 #! /usr/bin/env node
 import { program } from "commander";
-import { getProjectPath } from "./utils/get-project-path";
-import { loadConfig } from "./utils/load-config";
-import { generateManifest } from "./utils/generate-manifest";
-import { renderApp } from "./utils/render-app";
+import { getProjectPath } from "./lib/get-project-path";
+import { loadConfig } from "./lib/load-config";
+import { generateManifest } from "./lib/generate-manifest";
+import { renderApp } from "./lib/render-app";
 
 import fs from "node:fs";
 import path from "node:path";
-import { bootstrapApp } from "./utils/bootstrap";
+import { bootstrapApp } from "./lib/bootstrap";
 
 program
   .name("powex-cli")
