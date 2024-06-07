@@ -1,0 +1,1 @@
+export const POWEX_PROJECT_DIRECTORY_NAME = ".powex"

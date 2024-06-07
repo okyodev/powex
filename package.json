@@ -1,0 +1,32 @@
+{
+  "name": "powex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node-dev --respawn src/app.ts",
+    "build:dev": "tsc && npm i -g"
+  },
+  "bin": {
+    "powex": "./dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "esbuild": "0.21.4",
+    "esbuild-postcss": "^0.0.4",
+    "fs-extra": "^11.2.0",
+    "postcss": "^8.4.38",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.4.5"
+  }
+}
