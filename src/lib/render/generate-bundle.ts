@@ -2,7 +2,6 @@ import { Configuration, Stats } from "webpack";
 import { webpackAsync } from "../../utils/webpack-async";
 
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import autoprefixer from "autoprefixer";
 
 interface GenerateOptionsBundle
   extends Pick<Configuration, "entry" | "output" | "target" | "plugins"> {}
@@ -29,18 +28,7 @@ export const generateBundle = (
         },
         {
           test: /\.css$/i,
-          use: [
-            MiniCssExtractPlugin.loader,
-            "css-loader",
-            {
-              loader: "postcss-loader",
-              options: {
-                postcssOptions: {
-                  plugins: [autoprefixer],
-                },
-              },
-            },
-          ],
+          use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
           exclude: /node_modules/,
         },
         {
