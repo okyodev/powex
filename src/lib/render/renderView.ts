@@ -21,6 +21,7 @@ export const renderView = async (
   if (appView.type !== "VIEW") {
     throw new Error("the app file should be a VIEW");
   }
+  const appViewBundleName = appView.id.toLowerCase();
 
   // create view root file
   const appViewRootContent = transformTemplate(AppViewRootTemplate, {
@@ -28,11 +29,14 @@ export const renderView = async (
     view_path: appView.path.replace(/\\/g, "/"),
   });
 
-  const appViewRootPath = `${project.powerPath}-${APP_VIEW_ROOT_SUFFIX}`;
+  const appViewRootPath = path.join(
+    project.powerPath,
+    `${appViewBundleName}-${APP_VIEW_ROOT_SUFFIX}`
+  );
+  console.log(appViewRootPath);
   await fsa.writeFile(appViewRootPath, appViewRootContent);
 
   // generate bundle
-  const appViewBundleName = appView.id.toLowerCase();
   const bundleStats = await generateBundle({
     entry: {
       [appViewBundleName]: appViewRootPath,
