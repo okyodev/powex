@@ -6,7 +6,10 @@ import { getProjectPath } from "./get-project-path";
 import { getProjectConfig } from "./get-project-config";
 import { getProjectAppFiles } from "./get-project-app";
 
-import { POWEX_PROJECT_DIRECTORY_NAME } from "../../constants/powex.constants";
+import {
+  POWEX_EXTENSION_DEV_DIRECTORY_NAME,
+  POWEX_PROJECT_DIRECTORY_NAME,
+} from "../../constants/powex.constants";
 
 import { Project, ProjectConfig } from "../../interfaces/project.interfaces";
 
@@ -43,6 +46,23 @@ export const bootstrap = async (
     await fsa.mkdir(projectPowexPath);
   }
 
+  // setup dev directory
+  const projectDevPath = path.join(
+    projectPowexPath,
+    POWEX_EXTENSION_DEV_DIRECTORY_NAME
+  );
+
+  if (!(await fsa.exists(projectDevPath))) {
+    await fsa.mkdir(projectDevPath);
+  } else {
+    await fsa.rm(projectDevPath, {
+      force: true,
+      recursive: true,
+    });
+
+    await fsa.mkdir(projectDevPath);
+  }
+
   // load file configuration
   const projectConfig: ProjectConfig = await getProjectConfig(projectPath);
 
@@ -57,6 +77,7 @@ export const bootstrap = async (
 
   const project = {
     powexPath: projectPowexPath,
+    powexDevPath: projectDevPath,
     outdirPath: projectOutdirPath,
     path: projectPath,
     config: projectConfig,

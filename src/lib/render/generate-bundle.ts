@@ -9,9 +9,7 @@ interface GenerateOptionsBundle
 export const generateBundle = (
   options: GenerateOptionsBundle
 ): Promise<Stats> => {
-
-
-  // todo: use env or option to establish
+  // todo: use env or option to set
   // mode on development, also have differents
   // configs on http-equiv="Content-Security-Policy"
   // based on the mode.
@@ -29,7 +27,15 @@ export const generateBundle = (
           loader: "babel-loader",
           options: {
             plugins: ["@babel/plugin-proposal-class-properties"],
-            presets: ["@babel/preset-react", "@babel/preset-typescript"],
+            presets: [
+              [
+                "@babel/preset-react",
+                {
+                  runtime: "automatic",
+                },
+              ],
+              "@babel/preset-typescript",
+            ],
           },
         },
         {
@@ -43,6 +49,9 @@ export const generateBundle = (
           type: "asset/resource",
         },
       ],
+    },
+    resolve: {
+      extensions: [".js", ".ts", ".tsx", ".jsx", "..."],
     },
   });
 

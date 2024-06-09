@@ -1,9 +1,13 @@
 #! /usr/bin/env node
 import { program } from "commander";
 
+// build
 import { bootstrap } from "./lib/bootstrap/bootstrap";
 import { render } from "./lib/render/render";
 import { generateManifest } from "./lib/manifest/generate-manifest";
+
+// dev
+import { runDevServer } from "./lib/dev-server/run-dev-server";
 
 program
   .name("powex-cli")
@@ -22,6 +26,19 @@ program
 
     await generateManifest(project, {
       writeFile: true,
+    });
+  });
+
+program
+  .command("dev")
+  .description("start server development of a Powex project")
+  .action(async () => {
+    const project = await bootstrap({
+      writeFile: true,
+    });
+
+    await runDevServer({
+      project,
     });
   });
 

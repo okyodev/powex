@@ -23,8 +23,15 @@ export type ProjectApp = Partial<Record<ProjectAppFileId, ProjectAppFile>>;
 
 export interface Project {
   powexPath: string;
+  powexDevPath: string;
   outdirPath: string;
   path: string;
   config: ProjectConfig;
   app: ProjectApp;
+}
+
+export interface ProjectAppFileViewRoot {
+  bundleName: string;
+  path: string;
+  view: ProjectAppFile;
 }

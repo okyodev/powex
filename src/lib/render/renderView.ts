@@ -1,17 +1,10 @@
 import path from "node:path";
 import fsa from "fs-extra";
-import { AppViewRootTemplate } from "../../templates/app-view-root.template";
-import { transformTemplate } from "../../utils/transform-template";
-import { APP_VIEW_ROOT_SUFFIX } from "../../constants/render.constants";
 import { generateBundle } from "./generate-bundle";
-
-import {
-  Project,
-  ProjectApp,
-  ProjectAppFile,
-} from "../../interfaces/project.interfaces";
+import { Project, ProjectAppFile } from "../../interfaces/project.interfaces";
 import { Chunk } from "webpack";
-import { renderDocument } from "./renderDocument";
+import { _renderDocument, renderDocument } from "./renderDocument";
+import { generateViewRoot } from "./generate-view-root";
 
 // render unique the views
 export const renderView = async (
@@ -21,20 +14,9 @@ export const renderView = async (
   if (appView.type !== "VIEW") {
     throw new Error("the app file should be a VIEW");
   }
-  const appViewBundleName = appView.id.toLowerCase();
 
-  // create view root file
-  const appViewRootContent = transformTemplate(AppViewRootTemplate, {
-    layout_path: (project.app.LAYOUT?.path as string).replace(/\\/g, "/"),
-    view_path: appView.path.replace(/\\/g, "/"),
-  });
-
-  const appViewRootPath = path.join(
-    project.powexPath,
-    `${appViewBundleName}-${APP_VIEW_ROOT_SUFFIX}`
-  );
-  console.log(appViewRootPath);
-  await fsa.writeFile(appViewRootPath, appViewRootContent);
+  const { bundleName: appViewBundleName, path: appViewRootPath } =
+    await generateViewRoot(appView, project);
 
   // generate bundle
   const bundleStats = await generateBundle({
@@ -50,12 +32,11 @@ export const renderView = async (
     appViewBundleName
   ) as Chunk;
 
-  // generate index.html
-  await renderDocument(
+  await renderDocument({
     project,
-    project.app.DOCUMENT as ProjectAppFile,
-    bundleChunk
-  );
+    chunk: bundleChunk,
+    outdir: path.join(project.powexPath, appViewBundleName),
+  });
 
   // copy .powex directory to outdir folder
   await fsa.copy(

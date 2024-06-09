@@ -1,3 +1,5 @@
+export type ManifestEnvironment = "development" | "production";
+
 export type ManifestIconMimetype =
   | "png"
   | "bmp"

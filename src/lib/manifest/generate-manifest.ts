@@ -1,18 +1,26 @@
 import fsa from "fs-extra";
 import path from "node:path";
-import { DEFAULT_MANIFEST } from "../../constants/manifest.constants";
+import {
+  DEFAULT_MANIFEST,
+  MANIFEST_RENDER_OUTPUT_APP_FILES,
+} from "../../constants/manifest.constants";
 import { Project } from "../../interfaces/project.interfaces";
+import { ManifestEnvironment } from "../../interfaces/manifest.interfaces";
 
 interface GenerateManifestOptions {
-  writeFile: boolean;
+  writeFile?: boolean;
+  outdir?: string;
+  environment?: ManifestEnvironment;
 }
 
 export const generateManifest = async (
   project: Project,
   options?: GenerateManifestOptions
 ) => {
-  const _options: GenerateManifestOptions = {
+  const _options: Required<GenerateManifestOptions> = {
     writeFile: true,
+    outdir: project.outdirPath,
+    environment: "production",
     ...(options || {}),
   };
 
@@ -26,8 +34,10 @@ export const generateManifest = async (
   if (project.app.POPUP?.id) {
     manifest.action = {
       ...manifest.action,
-      default_popup: "./popup/popup.html",
+      default_popup:
+        MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].popup,
     };
+    console.log(MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].popup);
   }
 
   if (project.app.POPUP?.id) {
@@ -40,12 +50,17 @@ export const generateManifest = async (
 
     manifest.side_panel = {
       ...manifest.side_panel,
-      default_path: "./side_panel/side_panel.html",
+      default_path:
+        MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].sidePanel,
     };
+
+    console.log(
+      MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].sidePanel
+    );
   }
 
   if (_options.writeFile) {
-    const manifestOutputPath = path.join(project.outdirPath, "/manifest.json");
+    const manifestOutputPath = path.join(_options.outdir, "/manifest.json");
     await fsa.writeFile(manifestOutputPath, JSON.stringify(manifest));
   }
 
