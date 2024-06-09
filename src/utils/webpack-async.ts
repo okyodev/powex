@@ -1,22 +1,30 @@
 import path from "node:path";
 import { Configuration, Stats, webpack } from "webpack";
 
-const NODE_MODULES_PATH = path.resolve(__dirname, "../../node_modules");
-process.env.NODE_PATH = NODE_MODULES_PATH;
-require("module").Module._initPaths();
-
 export const webpackAsync = async (configuration: Configuration) => {
+  const projectNodeModulesPath = path.resolve(process.cwd(), "node_modules");
+  const cliNodeModulesPath = path.resolve(__dirname, "../../node_modules");
+
+  const allNodeModulesPaths = [cliNodeModulesPath, projectNodeModulesPath].join(
+    process.platform === "win32" ? ";" : ":"
+  );
+
+  process.env.NODE_PATH = allNodeModulesPaths;
+
+  require("module").Module._initPaths();
+
   const _configuration: Configuration = {
     ...configuration,
     resolve: {
       ...configuration.resolve,
-      modules: [NODE_MODULES_PATH, "node_modules"],
+      modules: [cliNodeModulesPath, "node_modules"],
     },
     resolveLoader: {
       ...configuration.resolveLoader,
-      modules: [NODE_MODULES_PATH, "node_modules"],
+      modules: [cliNodeModulesPath, "node_modules"],
     },
   };
+
   const _webpack = webpack(_configuration);
 
   const result = await new Promise<Stats>((resolve, reject) => {
