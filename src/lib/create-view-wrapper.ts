@@ -1,5 +1,0 @@
-
-
-const createViewWrapper = async () => {
-
-}
