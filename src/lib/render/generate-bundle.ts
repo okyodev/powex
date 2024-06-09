@@ -1,6 +1,8 @@
 import { Configuration, Stats } from "webpack";
 import { webpackAsync } from "../../utils/webpack-async";
+
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import autoprefixer from "autoprefixer";
 
 interface GenerateOptionsBundle
   extends Pick<Configuration, "entry" | "output" | "target" | "plugins"> {}
@@ -9,6 +11,7 @@ export const generateBundle = (
   options: GenerateOptionsBundle
 ): Promise<Stats> => {
   const stats = webpackAsync({
+    mode: "development",
     entry: options.entry,
     output: options.output,
     target: options.target,
@@ -26,7 +29,18 @@ export const generateBundle = (
         },
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: [
+            MiniCssExtractPlugin.loader,
+            "css-loader",
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [autoprefixer],
+                },
+              },
+            },
+          ],
           exclude: /node_modules/,
         },
         {
