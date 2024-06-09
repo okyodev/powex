@@ -15,13 +15,13 @@ import { Project, ProjectConfig } from "../../interfaces/project.interfaces";
  */
 export const bootstrapApp = async () => {
   const projectPath = getProjectPath();
-  const projectPowerDirPath = path.join(
+  const projectPowexDirPath = path.join(
     projectPath,
     `/${POWEX_PROJECT_DIRECTORY_NAME}`
   );
 
-  if (!fs.existsSync(projectPowerDirPath)) {
-    await fs.promises.mkdir(projectPowerDirPath);
+  if (!fs.existsSync(projectPowexDirPath)) {
+    await fs.promises.mkdir(projectPowexDirPath);
   }
 };
 
@@ -34,13 +34,13 @@ export const bootstrap = async (
 ): Promise<Project> => {
   // create /.powex directory if not exist
   const projectPath = getProjectPath();
-  const projectPowerPath = path.join(
+  const projectPowexPath = path.join(
     projectPath,
     `/${POWEX_PROJECT_DIRECTORY_NAME}`
   );
 
-  if (!(await fsa.exists(projectPowerPath))) {
-    await fsa.mkdir(projectPowerPath);
+  if (!(await fsa.exists(projectPowexPath))) {
+    await fsa.mkdir(projectPowexPath);
   }
 
   // load file configuration
@@ -56,7 +56,7 @@ export const bootstrap = async (
   const projectApp = await getProjectAppFiles(projectPath);
 
   const project = {
-    powerPath: projectPowerPath,
+    powexPath: projectPowexPath,
     outdirPath: projectOutdirPath,
     path: projectPath,
     config: projectConfig,
@@ -66,7 +66,7 @@ export const bootstrap = async (
   if (options?.writeFile) {
     try {
       await fsa.writeFile(
-        path.join(projectPowerPath, "/app-context.json"),
+        path.join(projectPowexPath, "/app-context.json"),
         JSON.stringify(project)
       );
     } catch (error) {

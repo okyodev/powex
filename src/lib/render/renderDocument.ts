@@ -19,7 +19,7 @@ export const renderDocument = async (
   const getDocTemplate = (
     await getBundleExternalCode(
       project.app.DOCUMENT?.path || "",
-      path.join(project.powerPath, "document")
+      path.join(project.powexPath, "document")
     )
   ).default as () => string;
 
@@ -63,7 +63,7 @@ export const renderDocument = async (
 
   await fsa.writeFile(
     path.join(
-      project.powerPath,
+      project.powexPath,
       chunk.name || "",
       `${chunk.name || "index"}.html`
     ),

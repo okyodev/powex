@@ -22,7 +22,7 @@ export interface ProjectAppFile {
 export type ProjectApp = Partial<Record<ProjectAppFileId, ProjectAppFile>>;
 
 export interface Project {
-  powerPath: string;
+  powexPath: string;
   outdirPath: string;
   path: string;
   config: ProjectConfig;

@@ -30,7 +30,7 @@ export const renderView = async (
   });
 
   const appViewRootPath = path.join(
-    project.powerPath,
+    project.powexPath,
     `${appViewBundleName}-${APP_VIEW_ROOT_SUFFIX}`
   );
   console.log(appViewRootPath);
@@ -42,7 +42,7 @@ export const renderView = async (
       [appViewBundleName]: appViewRootPath,
     },
     output: {
-      path: path.join(project.powerPath, appViewBundleName),
+      path: path.join(project.powexPath, appViewBundleName),
     },
   });
 
@@ -57,9 +57,9 @@ export const renderView = async (
     bundleChunk
   );
 
-  // copy .power directory to outdir folder
+  // copy .powex directory to outdir folder
   await fsa.copy(
-    path.join(project.powerPath, appViewBundleName),
+    path.join(project.powexPath, appViewBundleName),
     path.join(project.outdirPath, `${appViewBundleName}`)
   );
 
