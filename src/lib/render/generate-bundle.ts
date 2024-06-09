@@ -9,8 +9,14 @@ interface GenerateOptionsBundle
 export const generateBundle = (
   options: GenerateOptionsBundle
 ): Promise<Stats> => {
+
+
+  // todo: use env or option to establish
+  // mode on development, also have differents
+  // configs on http-equiv="Content-Security-Policy"
+  // based on the mode.
+
   const stats = webpackAsync({
-    mode: "development",
     entry: options.entry,
     output: options.output,
     target: options.target,
