@@ -12,8 +12,6 @@ export const getWebpackDev = (config: WebpackDevConfig) => {
     process.platform === "win32" ? ";" : ":"
   );
 
-  console.log(allNodeModulesPaths);
-
   process.env.NODE_PATH = allNodeModulesPaths;
   require("module").Module._initPaths();
 

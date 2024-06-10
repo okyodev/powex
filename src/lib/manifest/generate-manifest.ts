@@ -37,7 +37,6 @@ export const generateManifest = async (
       default_popup:
         MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].popup,
     };
-    console.log(MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].popup);
   }
 
   if (project.app.POPUP?.id) {
@@ -53,10 +52,6 @@ export const generateManifest = async (
       default_path:
         MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].sidePanel,
     };
-
-    console.log(
-      MANIFEST_RENDER_OUTPUT_APP_FILES[_options.environment].sidePanel
-    );
   }
 
   if (_options.writeFile) {
