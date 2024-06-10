@@ -1,6 +1,6 @@
 {
   "name": "powex",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./dist/app.js",
   "scripts": {
     "build:install": "tsc && npm i -g",
