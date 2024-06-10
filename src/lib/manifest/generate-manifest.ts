@@ -39,7 +39,7 @@ export const generateManifest = async (
     };
   }
 
-  if (project.app.POPUP?.id) {
+  if (project.app.SIDE_PANEL?.id) {
     // add permissions
     if (Array.isArray(manifest.permissions)) {
       manifest.permissions.push("sidePanel");
