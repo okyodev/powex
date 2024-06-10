@@ -1,18 +1,33 @@
 {
   "name": "powex",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/app.js",
   "scripts": {
-    "dev": "npx ts-node-dev --respawn src/app.ts",
-    "build:dev": "tsc && npm i -g"
+    "build:install": "tsc && npm i -g",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "bin": {
     "powex": "./dist/app.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "powex",
+    "react",
+    "framework",
+    "react framework",
+    "extension",
+    "chrome extension",
+    "edge extension",
+    "web extension",
+    "react web extension"
+  ],
+  "author": {
+    "email": "diegocadam55@gmail.com",
+    "name": "DiegoCadavid",
+    "url": "https://github.com/DiegoCadavid"
+  },
   "license": "ISC",
-  "description": "",
+  "description": "React framework for web extensions",
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/fs-extra": "^11.0.4",
