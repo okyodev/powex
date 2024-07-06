@@ -3,7 +3,7 @@ import fsa from "fs-extra";
 import { generateBundle } from "./generate-bundle";
 import { Project, ProjectAppFile } from "../../interfaces/project.interfaces";
 import { Chunk } from "webpack";
-import { _renderDocument, renderDocument } from "./renderDocument";
+import { _renderDocument, renderDocument } from "./render-document";
 import { generateViewRoot } from "./generate-view-root";
 
 // render unique the views

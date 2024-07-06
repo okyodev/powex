@@ -1,6 +1,6 @@
 import { Project } from "../../interfaces/project.interfaces";
 import fsa from "fs-extra";
-import { renderView } from "./renderView";
+import { renderView } from "./render-view";
 import { Chunk } from "webpack";
 
 export const render = async (project: Project) => {
