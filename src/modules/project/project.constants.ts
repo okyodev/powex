@@ -19,9 +19,11 @@ export const PROJECT_INTERNAL_OUTPUT_DIRECTORY_NAME_BY_ENVIRONMENT: Record<
 
 export const PROJECT_CONFIG_FILE_NAME = "powex.config.[js,ts]";
 export const PROJECT_APP_DIRECTORY_NAME = "src/app";
+export const PROJECT_OUTPUT_DIRECTORY_NAME = "dist";
 
 export const PROJECT_DEFAULT_CONFIG: ProjectConfig = {
   name: "Powex",
   description: "Extension generated with Powex",
   version: "1.0.0",
+  outdir: PROJECT_OUTPUT_DIRECTORY_NAME,
 };

@@ -6,6 +6,7 @@ export interface ProjectConfig {
   name: string;
   description: string;
   version: `${number}.${number}.${number}`;
+  outdir?: string;
 
   // The icons will be generated.
   overrideManifest?: Partial<

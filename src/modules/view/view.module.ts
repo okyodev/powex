@@ -19,10 +19,10 @@ import {
 import { File } from "../file/file.module";
 
 import { Template } from "../template/template.module";
+import { Bundler } from "../bundler/bundler.module";
 
 export class View {
   project: Project;
-
   id: ViewId;
 
   constructor(project: Project, id: ViewId) {
@@ -84,9 +84,112 @@ export class View {
     return file;
   }
 
-  async build() {
+  async build(): Promise<File | null> {
     const rootComponentFile = await this.createReactRootComponent();
-    console.log(rootComponentFile);
+    return rootComponentFile;
+  }
+
+  async createDocumentFile(files: File[]): Promise<File | null> {
+    const config = await this.project.getConfig();
+    if (!config) return null;
+
+    const documentFilePath = join(
+      this.project.path,
+      PROJECT_INTERNAL_OUTPUT_DIRECTORY_NAME_BY_ENVIRONMENT[
+        this.project.environment
+      ],
+      `${this.id}.html`
+    );
+
+    const documentTemplate = await this.getDocumentTemplate();
+    if (documentTemplate === null) return null;
+
+    const assetsHTMLTags: {
+      scripts: string[];
+      stylesheets: string[];
+    } = files.reduce<{
+      scripts: string[];
+      stylesheets: string[];
+    }>(
+      (acc, file) => {
+        const fileRelativePath = file.relativePath(
+          join(
+            this.project.path,
+            PROJECT_INTERNAL_OUTPUT_DIRECTORY_NAME_BY_ENVIRONMENT[
+              this.project.environment
+            ]
+          )
+        );
+
+        if (file.extension === "js") {
+          acc.scripts.push(
+            `<script type="module" crossorigin src="${fileRelativePath}"></script>`
+          );
+        }
+
+        if (file.extension === "css") {
+          acc.stylesheets.push(
+            `<link rel="stylesheet" href="${fileRelativePath}" />`
+          );
+        }
+
+        return acc;
+      },
+      {
+        scripts: [],
+        stylesheets: [],
+      }
+    );
+
+    const documentContent = Template.parse<{
+      name: string;
+      scripts: string;
+      stylesheets: string;
+    }>(documentTemplate, {
+      name: config.name,
+      scripts: assetsHTMLTags.scripts.join("\n"),
+      stylesheets: assetsHTMLTags.stylesheets.join("\n"),
+    });
+
+    const documentFile = await File.write(documentFilePath, documentContent);
+    return documentFile;
+  }
+
+  async getDocumentTemplate(): Promise<string | null> {
+    const documentTemplatePath = join(
+      this.project.path,
+      PROJECT_APP_DIRECTORY_NAME,
+      "_document.[js,ts]"
+    );
+
+    const file = await File.resolve(documentTemplatePath);
+    if (!file || !(await file.exist())) return null;
+
+    const documentBundleTemplatePath = join(
+      this.project.path,
+      PROJECT_INTERNAL_DIRECTORY_NAME
+    );
+
+    const bundler = new Bundler(this.project, {
+      entry: {
+        [`${file.filename}-${this.id}`]: file.path,
+      },
+      output: {
+        path: documentBundleTemplatePath,
+        libraryTarget: "umd",
+      },
+      target: "node",
+    });
+
+    const bundleResultFiles = await bundler.run();
+    const documentBundleFile = bundleResultFiles[0];
+    const documentTemplate = (
+      (await documentBundleFile.import()) as {
+        default: () => string;
+      }
+    ).default();
+
+    return documentTemplate;
   }
 
   static async scan(project: Project): Promise<View[]> {

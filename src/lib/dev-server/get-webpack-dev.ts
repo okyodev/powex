@@ -19,7 +19,7 @@ export const getWebpackDev = (config: WebpackDevConfig) => {
     entry: config.entry,
     output: config.output,
     mode: "development",
-    devtool: "inline-source-map",
+    devtool: "cheap-module-source-map",
     plugins: [
       new HotModuleReplacementPlugin(),
       new ReactRefreshPlugin(),

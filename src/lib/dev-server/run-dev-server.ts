@@ -53,9 +53,15 @@ export const runDevServer = async ({ project }: RunDevServerOptions) => {
   app.use(
     webpackDevMiddleware(webpack, {
       writeToDisk: true,
+      stats: "minimal",
     })
   );
-  app.use(webpackHotMiddleware(webpack));
+
+  app.use(
+    webpackHotMiddleware(webpack, {
+      log: false,
+    })
+  );
 
   app.listen(8080, () => {
     console.log("Running server on 8080");

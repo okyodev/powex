@@ -162,7 +162,7 @@ export interface ManifestWebAccessibleResource {
 export interface Manifest {
   manifest_version: 3;
   name: string;
-  version: string;
+  version: `${number}.${number}.${number}`;
 
   // required by Chrome web store
   description?: string;

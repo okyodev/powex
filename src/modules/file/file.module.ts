@@ -2,13 +2,26 @@ import nodePath from "node:path";
 import fs from "node:fs";
 import fsa from "fs-extra";
 
+import { BundlerOptions } from "../bundler/bundler.types";
+import { Bundler } from "../bundler/bundler.module";
+
 export class File {
   path: string;
+  filename: string;
   extension: string;
 
   constructor(path: string) {
     this.path = path;
     this.extension = nodePath.extname(path).replace(".", "");
+    this.filename = nodePath.basename(path, `.${this.extension}`);
+  }
+
+  relativePath(from: string): string {
+    const relativePath = nodePath.relative(from, this.path);
+    if (relativePath === `${this.filename}.${this.extension}`)
+      return `./${this.filename}.${this.extension}`;
+
+    return relativePath;
   }
 
   async exist(): Promise<boolean> {
@@ -17,6 +30,10 @@ export class File {
 
   require(): unknown {
     return require(this.path);
+  }
+
+  import(): Promise<unknown> {
+    return import(this.path);
   }
 
   static async resolve(path: string): Promise<File | null> {

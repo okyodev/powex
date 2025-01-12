@@ -32,6 +32,18 @@ export const renderView = async (
     appViewBundleName
   ) as Chunk;
 
+  console.log("================= named")
+  console.log(bundleStats.compilation.namedChunks)
+  console.log("=================")
+
+  console.log("================= not named")
+  console.log(bundleStats.compilation.chunks)
+  console.log("=================")
+
+  console.log("================= path")
+  console.log(bundleStats.compilation.compiler.outputPath)
+  console.log("=================")
+
   await renderDocument({
     project,
     chunk: bundleChunk,

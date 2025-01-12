@@ -19,7 +19,23 @@ program
 
 program
   .command("build")
-  .description("build a Powex project")
+  .description("build a powex project")
+  .action(async () => {
+    const project = new Project("production");
+    project.build();
+  });
+
+program
+  .command("dev")
+  .description("start server development of a Powex project")
+  .action(async () => {
+    const project = new Project("development");
+    project.server();
+  });
+
+program
+  .command("legacy-build")
+  .description("We recommend se build instead")
   .action(async () => {
     const project = await bootstrap({
       writeFile: true,
@@ -33,19 +49,8 @@ program
   });
 
 program
-  .command("test")
-  .description("New command to build powex project")
-  .action(async () => {
-    const project = new Project("production");
-    await project.build();
-
-    // project = Project("...")
-    // project.build()
-  });
-
-program
-  .command("dev")
-  .description("start server development of a Powex project")
+  .command("legacy-dev")
+  .description("Legacy start server development of a Powex project")
   .action(async () => {
     const project = await bootstrap({
       writeFile: true,
