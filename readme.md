@@ -2,6 +2,9 @@
 
 Powex is a React framework for web extensions, create extensions in minutes in a simple way and with a development experience as if you were building a page with react!
 
+![2024-06-09-21-23-38 (1)](https://github.com/DiegoCadavid/powex/assets/82774171/4008fb5e-285f-4739-a9b8-841493ace721)
+
+
 > [!WARNING]  
 > the development of this framework is in a very early version, not recommended for use in a production environment.
 
