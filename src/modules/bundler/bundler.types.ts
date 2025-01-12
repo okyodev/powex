@@ -1,4 +1,4 @@
-import { Configuration, EntryObject } from "webpack";
+import { Configuration } from "webpack";
 
 export interface BundlerOptions
   extends Omit<Pick<Configuration, "output" | "target" | "plugins">, "entry"> {

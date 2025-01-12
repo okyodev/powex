@@ -2,9 +2,6 @@ import nodePath from "node:path";
 import fs from "node:fs";
 import fsa from "fs-extra";
 
-import { BundlerOptions } from "../bundler/bundler.types";
-import { Bundler } from "../bundler/bundler.module";
-
 export class File {
   path: string;
   filename: string;

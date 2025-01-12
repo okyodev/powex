@@ -1,4 +1,3 @@
-import { PROJECT_APP_DIRECTORY_NAME } from "../project/project.constants";
 import { ViewId } from "./view.types";
 
 export const VIEW_LAYOUT_FILE_NAME = "layout";
