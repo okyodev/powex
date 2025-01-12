@@ -13,21 +13,6 @@ import {
 
 import { Project, ProjectConfig } from "../../interfaces/project.interfaces";
 
-/**
- * @deprecated
- */
-export const bootstrapApp = async () => {
-  const projectPath = getProjectPath();
-  const projectPowexDirPath = path.join(
-    projectPath,
-    `/${POWEX_PROJECT_DIRECTORY_NAME}`
-  );
-
-  if (!fs.existsSync(projectPowexDirPath)) {
-    await fs.promises.mkdir(projectPowexDirPath);
-  }
-};
-
 export interface BootstrapOptions {
   writeFile?: boolean;
 }
@@ -88,7 +73,7 @@ export const bootstrap = async (
     try {
       await fsa.writeFile(
         path.join(projectPowexPath, "/app-context.json"),
-        JSON.stringify(project)
+        JSON.stringify(project, null, 2)
       );
     } catch (error) {
       throw new Error("Error generating app file");

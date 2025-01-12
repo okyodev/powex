@@ -20,6 +20,8 @@ export const generateViewRoot = async (
     view_path: appView.path.replace(/\\/g, "/"),
   });
 
+  console.log("APP VIEW ROOT CONTENT", appViewRootContent);
+
   const appViewRootPath = path.join(
     project.powexPath,
     `${appViewBundleName}-${APP_VIEW_ROOT_SUFFIX}`
