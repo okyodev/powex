@@ -81,7 +81,6 @@ export class Project {
     const views = await View.scan(this);
 
     // Create the bundler
-
     const projectInternalBuildOutput = join(
       this.path,
       PROJECT_INTERNAL_OUTPUT_DIRECTORY_NAME_BY_ENVIRONMENT[this.environment]
@@ -173,6 +172,10 @@ export class Project {
     );
 
     try {
+      if (await exists(outputPath)) {
+        await rm(outputPath, { recursive: true });
+      }
+
       await copy(projectInternalBuildOutput, outputPath);
       return bundler;
     } catch (error) {
@@ -198,7 +201,6 @@ export class Project {
         stats: "minimal",
       })
     );
-
 
     // Edit the HMR queries to edit the overlay (create custom overlay) - overlayStyles
     // https://github.com/webpack-contrib/webpack-hot-middleware#documentation
